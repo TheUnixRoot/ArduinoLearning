@@ -1,8 +1,13 @@
+#include <SoftwareSerial.h>
+
 // Inicio variables motor
 int pin2=9;   //Entrada 2 del L293D
 int pin7=10;  //Entrada 7 del L293D
 
 // Inicio variables para la lectura por puerto serie
+
+SoftwareSerial bt (11,12);
+
 long rx;
 char command;
 int tx;
@@ -14,7 +19,7 @@ void setup()
 	digitalWrite(13, HIGH);
 	delay(2000);
 	// Enciendo el led 13 y espero dos segundos
-	Serial.begin(9600);
+	bt.begin(9600);
 	digitalWrite(13, LOW);
 	delay(2000);
 	// Comienzo la comunicacion serie y espero 2 segundos
@@ -28,16 +33,16 @@ void setup()
 void loop()
 {
 	// En teoría va leyendo el puerto serie buscando numeros
-	if(Serial.read() > 0){
-		command = Serial.read();
+	if(bt.read() > 0){
+		command = bt.read();
 	}
 	switch (command) {
 		case 'm':
 		digitalWrite(13, HIGH);
     	delay(3000);
     	digitalWrite(13, LOW);
-		while(Serial.available() > 0){
-			rx = Serial.parseInt();
+		while(bt.available() > 0){
+			rx = bt.parseInt();
 		}
 		// Para encender el motor
 	
